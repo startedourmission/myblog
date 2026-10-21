@@ -1,0 +1,32 @@
+/* 작은 서재 디자인 시스템 v1.0 */
+:root {
+  --paper: #f5f6f4;
+  --card: #ffffff;
+  --ink: #14181f;
+  --muted: #586170;
+  --line: #d9dde2;
+  --accent: #2a3f8f;
+  --accent-soft: #e6eaf6;
+  --seal: #c23b2a;
+
+  --display: "Nanum Myeongjo", "Noto Serif KR", Georgia, serif;
+  --prose: "Gowun Batang", "Noto Serif KR", Georgia, serif;
+  --ui: "IBM Plex Sans KR", "Noto Sans KR", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px;
+  --r-sm: 2px; --r-md: 6px; --r-full: 999px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12151b; --card: #1a1e26; --ink: #e6e9ee; --muted: #9099a8;
+    --line: #2c323d; --accent: #9bb0f5; --accent-soft: #232a40; --seal: #e8705b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12151b; --card: #1a1e26; --ink: #e6e9ee; --muted: #9099a8;
+  --line: #2c323d; --accent: #9bb0f5; --accent-soft: #232a40; --seal: #e8705b;
+  color-scheme: dark;
+}
