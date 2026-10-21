@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>나의 작은 서재</title>
+  <meta name="description" content="일상과 생각을 기록하는 개인 블로그">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg: #faf7f2;
+  --fg: #2b2622;
+  --muted: #8a8076;
+  --accent: #b5532f;
+  --line: #e8e0d4;
+  --card: #fffdf9;
+  --serif: "Noto Serif KR", Georgia, serif;
+  --sans: "Noto Sans KR", system-ui, sans-serif;
+}
+:root[data-theme="dark"] {
+  --bg: #1c1a18;
+  --fg: #ece5da;
+  --muted: #9a9086;
+  --accent: #e08a62;
+  --line: #36312c;
+  --card: #24211e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1c1a18; --fg: #ece5da; --muted: #9a9086;
+    --accent: #e08a62; --line: #36312c; --card: #24211e;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  line-height: 1.8;
+  transition: background .2s, color .2s;
+}
+a { color: inherit; }
+
+.site-header, main, .site-footer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.site-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 28px; padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.brand { font-family: var(--serif); font-weight: 700; font-size: 1.25rem; text-decoration: none; }
+nav { display: flex; gap: 18px; align-items: center; font-size: .95rem; }
+nav a { text-decoration: none; color: var(--muted); }
+nav a:hover { color: var(--accent); }
+#theme-toggle {
+  background: none; border: 1px solid var(--line); color: var(--fg);
+  width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem;
+}
+
+main { padding-top: 40px; padding-bottom: 60px; min-height: 60vh; }
+
+.intro { margin-bottom: 32px; }
+.intro h1 { font-family: var(--serif); font-size: 1.8rem; line-height: 1.4; margin: 0 0 8px; }
+.intro p { margin: 0; color: var(--muted); }
+
+.tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 28px; }
+.tools input {
+  flex: 1 1 200px; padding: 8px 14px; font: inherit; font-size: .9rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--card); color: var(--fg);
+}
+.tag {
+  display: inline-block; padding: 2px 12px; font-size: .8rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  color: var(--muted); text-decoration: none; background: transparent; cursor: pointer; font-family: inherit;
+}
+.tag:hover, .tag.active { color: var(--accent); border-color: var(--accent); }
+
+.post-item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+.post-item h2 { font-family: var(--serif); font-size: 1.35rem; margin: 4px 0 6px; line-height: 1.45; }
+.post-item h2 a { text-decoration: none; }
+.post-item h2 a:hover { color: var(--accent); }
+.post-item p { margin: 0 0 10px; color: var(--muted); font-size: .95rem; }
+.meta { font-size: .82rem; color: var(--muted); }
+.empty { color: var(--muted); padding: 40px 0; text-align: center; }
+
+.post-head h1 { font-family: var(--serif); font-size: 2rem; line-height: 1.4; margin: 6px 0 12px; }
+.post-head { padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+.back { font-size: .9rem; color: var(--muted); text-decoration: none; }
+.back:hover { color: var(--accent); }
+
+.prose { font-family: var(--serif); font-size: 1.05rem; line-height: 2; }
+.prose h2, .prose h3 { margin: 2em 0 .5em; line-height: 1.5; }
+.prose p { margin: 0 0 1.4em; }
+.prose a { color: var(--accent); }
+.prose blockquote {
+  margin: 1.6em 0; padding: 4px 20px; border-left: 3px solid var(--accent);
+  color: var(--muted);
+}
+.prose blockquote p { margin: .6em 0; }
+.prose code {
+  font-family: ui-monospace, Menlo, monospace; font-size: .88em;
+  background: var(--card); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px;
+}
+.prose pre {
+  background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  padding: 16px; overflow-x: auto; line-height: 1.6;
+}
+.prose pre code { background: none; border: 0; padding: 0; }
+.prose img { max-width: 100%; border-radius: 6px; }
+.prose hr { border: 0; border-top: 1px solid var(--line); margin: 2.4em 0; }
+.prose ul, .prose ol { margin: 0 0 1.4em; padding-left: 1.4em; }
+
+.site-footer {
+  padding-top: 24px; padding-bottom: 40px;
+  border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem;
+}
+
+@media (max-width: 480px) {
+  .post-head h1 { font-size: 1.6rem; }
+  .intro h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#/">나의 작은 서재</a>
+    <nav>
+      <a href="#/">글</a>
+      <a href="#/about">소개</a>
+      <button id="theme-toggle" aria-label="다크 모드 전환">◐</button>
+    </nav>
+  </header>
+
+  <main id="app"></main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> 나의 작은 서재 · 천천히, 꾸준히 씁니다.</p>
+  </footer>
+
+  <script>
+// 새 글을 쓰려면 아래 배열 맨 위에 객체 하나를 추가하세요.
+// - id: 주소에 쓰이는 영문/숫자/하이픈 (겹치지 않게)
+// - date: YYYY-MM-DD
+// - content: 마크다운 (제목 #, 굵게 **, 인용 >, 목록 -, 코드 ```, 링크, 이미지 지원)
+window.POSTS = [
+  {
+    id: "first-post",
+    title: "첫 글, 천천히 시작해 봅니다",
+    date: "2026-10-21",
+    tags: ["일상", "시작"],
+    summary: "블로그를 열었습니다. 거창한 목표 대신 작은 기록부터.",
+    content: `
+오래 미뤄 두었던 블로그를 드디어 열었다. 뭘 써야 할지 몰라 한참 망설였지만, 결국 **일단 쓰는 것**이 가장 좋은 시작이라는 결론에 도착했다.
+
+## 이곳에는 무엇을 적을까
+
+- 하루 중 문득 스친 생각
+- 읽은 책과 본 영화에 대한 짧은 메모
+- 나중에 다시 꺼내 보고 싶은 순간들
+
+> 기록하지 않은 하루는 쉽게 사라진다.
+
+## 앞으로
+
+매주 한 편, 길지 않아도 괜찮다. 완벽한 글보다 **꾸준한 글**을 목표로 한다.
+
+읽어 주셔서 고맙습니다.
+`
+  },
+  {
+    id: "morning-coffee",
+    title: "아침 커피 한 잔의 여유",
+    date: "2026-10-18",
+    tags: ["일상"],
+    summary: "바쁜 아침에도 십 분만 나를 위해 쓰기로 했다.",
+    content: `
+요즘은 아침마다 커피를 내린다. 물이 끓는 소리, 원두가 갈리는 향, 천천히 떨어지는 갈색 방울.
+
+## 십 분의 규칙
+
+휴대폰은 보지 않는다. 창밖을 보거나, 아무것도 하지 않는다.
+
+\`\`\`
+06:50  물 끓이기
+06:55  커피 내리기
+07:00  아무것도 안 하기
+\`\`\`
+
+별것 아닌데, 하루의 속도가 달라진다.
+`
+  }
+];
+
+window.ABOUT = `
+안녕하세요, 이곳은 일상과 생각을 천천히 기록하는 작은 공간입니다.
+
+## 연락
+
+- 이메일: your@email.com
+
+이 문구는 \`posts.js\` 맨 아래의 \`ABOUT\`에서 수정할 수 있어요.
+`;
+</script>
+  <script>
+(function () {
+  const app = document.getElementById("app");
+  const posts = (window.POSTS || []).slice().sort((a, b) => b.date.localeCompare(a.date));
+  let query = "";
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // ---------- theme ----------
+  const root = document.documentElement;
+  try {
+    const saved = localStorage.getItem("theme");
+    if (saved) root.dataset.theme = saved;
+  } catch (e) {}
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    const dark = getComputedStyle(root).getPropertyValue("--bg").trim() === "#1c1a18";
+    const next = dark ? "light" : "dark";
+    root.dataset.theme = next;
+    try { localStorage.setItem("theme", next); } catch (e) {}
+  });
+
+  // ---------- markdown ----------
+  const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+  function inline(s) {
+    s = esc(s);
+    s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img src="$2" alt="$1">');
+    s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, t, u) =>
+      /^(https?:|mailto:|#|\/)/.test(u) ? `<a href="${u}">${t}</a>` : m);
+    s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+    s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    s = s.replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
+    return s;
+  }
+
+  function markdown(src) {
+    const lines = src.replace(/\r/g, "").trim().split("\n");
+    const out = [];
+    let i = 0;
+    while (i < lines.length) {
+      const line = lines[i];
+      if (/^```/.test(line)) {
+        const code = [];
+        i++;
+        while (i < lines.length && !/^```/.test(lines[i])) code.push(lines[i++]);
+        i++;
+        out.push(`<pre><code>${esc(code.join("\n"))}</code></pre>`);
+      } else if (/^#{1,3}\s/.test(line)) {
+        const level = line.match(/^#+/)[0].length;
+        out.push(`<h${level}>${inline(line.replace(/^#+\s/, ""))}</h${level}>`);
+        i++;
+      } else if (/^---+$/.test(line.trim())) {
+        out.push("<hr>"); i++;
+      } else if (/^>\s?/.test(line)) {
+        const q = [];
+        while (i < lines.length && /^>\s?/.test(lines[i])) q.push(lines[i++].replace(/^>\s?/, ""));
+        out.push(`<blockquote>${markdown(q.join("\n"))}</blockquote>`);
+      } else if (/^\s*[-*]\s/.test(line)) {
+        const items = [];
+        while (i < lines.length && /^\s*[-*]\s/.test(lines[i])) items.push(`<li>${inline(lines[i++].replace(/^\s*[-*]\s/, ""))}</li>`);
+        out.push(`<ul>${items.join("")}</ul>`);
+      } else if (/^\s*\d+\.\s/.test(line)) {
+        const items = [];
+        while (i < lines.length && /^\s*\d+\.\s/.test(lines[i])) items.push(`<li>${inline(lines[i++].replace(/^\s*\d+\.\s/, ""))}</li>`);
+        out.push(`<ol>${items.join("")}</ol>`);
+      } else if (line.trim() === "") {
+        i++;
+      } else {
+        const p = [];
+        while (i < lines.length && lines[i].trim() !== "" && !/^(```|#{1,3}\s|>|\s*[-*]\s|\s*\d+\.\s|---+$)/.test(lines[i])) p.push(lines[i++]);
+        out.push(`<p>${inline(p.join("<br>"))}</p>`);
+      }
+    }
+    return out.join("\n");
+  }
+
+  // ---------- views ----------
+  const fmtDate = d => {
+    const [y, m, day] = d.split("-");
+    return `${y}.${m}.${day}`;
+  };
+  const readTime = text => Math.max(1, Math.round(text.replace(/\s/g, "").length / 500));
+
+  function tagLink(t, active) {
+    return `<a class="tag${active ? " active" : ""}" href="#/tag/${encodeURIComponent(t)}">#${esc(t)}</a>`;
+  }
+
+  function listView(tag) {
+    const allTags = [...new Set(posts.flatMap(p => p.tags || []))];
+    const q = query.trim().toLowerCase();
+    const shown = posts.filter(p =>
+      (!tag || (p.tags || []).includes(tag)) &&
+      (!q || (p.title + p.summary + p.content).toLowerCase().includes(q)));
+
+    app.innerHTML = `
+      <section class="intro">
+        <h1>${tag ? "#" + esc(tag) : "오늘의 기록"}</h1>
+        <p>${tag ? shown.length + "개의 글" : "일상과 생각을 천천히 적어 둡니다."}</p>
+      </section>
+      <div class="tools">
+        <input id="search" type="search" placeholder="글 검색…" value="${esc(query)}">
+        <a class="tag${tag ? "" : " active"}" href="#/">전체</a>
+        ${allTags.map(t => tagLink(t, t === tag)).join("")}
+      </div>
+      <div id="list">${listItems(shown)}</div>`;
+
+    const input = document.getElementById("search");
+    input.addEventListener("input", () => {
+      query = input.value;
+      const qq = query.trim().toLowerCase();
+      const res = posts.filter(p =>
+        (!tag || (p.tags || []).includes(tag)) &&
+        (!qq || (p.title + p.summary + p.content).toLowerCase().includes(qq)));
+      document.getElementById("list").innerHTML = listItems(res);
+    });
+  }
+
+  function listItems(list) {
+    if (!list.length) return '<p class="empty">일치하는 글이 없어요.</p>';
+    return list.map(p => `
+      <article class="post-item">
+        <div class="meta">${fmtDate(p.date)} · ${readTime(p.content)}분 읽기</div>
+        <h2><a href="#/post/${encodeURIComponent(p.id)}">${esc(p.title)}</a></h2>
+        <p>${esc(p.summary || "")}</p>
+        <div>${(p.tags || []).map(t => tagLink(t)).join(" ")}</div>
+      </article>`).join("");
+  }
+
+  function postView(id) {
+    const idx = posts.findIndex(p => p.id === id);
+    if (idx < 0) return notFound();
+    const p = posts[idx];
+    document.title = `${p.title} · 나의 작은 서재`;
+    app.innerHTML = `
+      <a class="back" href="#/">← 목록으로</a>
+      <article>
+        <header class="post-head">
+          <div class="meta">${fmtDate(p.date)} · ${readTime(p.content)}분 읽기</div>
+          <h1>${esc(p.title)}</h1>
+          <div>${(p.tags || []).map(t => tagLink(t)).join(" ")}</div>
+        </header>
+        <div class="prose">${markdown(p.content)}</div>
+      </article>`;
+  }
+
+  function aboutView() {
+    app.innerHTML = `
+      <section class="intro"><h1>소개</h1></section>
+      <div class="prose">${markdown(window.ABOUT || "")}</div>`;
+  }
+
+  function notFound() {
+    app.innerHTML = '<p class="empty">페이지를 찾을 수 없어요. <a href="#/">홈으로</a></p>';
+  }
+
+  // ---------- router ----------
+  function route() {
+    document.title = "나의 작은 서재";
+    const hash = location.hash.replace(/^#\/?/, "");
+    const [name, ...rest] = hash.split("/");
+    const arg = decodeURIComponent(rest.join("/"));
+    if (!name) listView();
+    else if (name === "tag") listView(arg);
+    else if (name === "post") postView(arg);
+    else if (name === "about") aboutView();
+    else notFound();
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>
